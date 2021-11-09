@@ -2,9 +2,9 @@
 
 using UnrealBuildTool;
 
-public class ToonTanks : ModuleRules
+public class TankGame : ModuleRules
 {
-	public ToonTanks(ReadOnlyTargetRules Target) : base(Target)
+	public TankGame(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
