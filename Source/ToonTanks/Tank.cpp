@@ -24,6 +24,27 @@ void ATank::BeginPlay()
 
 }
 
+// Called every frame
+void ATank::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	if (PlayerController)
+	{
+		FHitResult HitResult;
+		PlayerController->GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, false, HitResult);
+		RotateTurret(HitResult.ImpactPoint);
+	}
+}
+
+void ATank::HandleDestruction()
+{
+	Super::HandleDestruction();
+	SetActorHiddenInGame(true);
+	SetActorTickEnabled(false);
+	bAlive = false;
+}
+
 // Called to bind functionality to input
 void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
@@ -31,6 +52,8 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 	PlayerInputComponent->BindAxis(TEXT("MoveForward"), this, &ATank::Move);
 	PlayerInputComponent->BindAxis(TEXT("Turn"), this, &ATank::Turn);
+
+	PlayerInputComponent->BindAction(TEXT("Fire"), IE_Pressed, this, &ATank::Fire);
 }
 
 void ATank::Move(float Value)
